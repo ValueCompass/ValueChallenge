@@ -1,0 +1,232 @@
+    :root {
+            --primary-color: #4a6fa5;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fc;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .page-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .stat-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 2px solid #e9ecef;
+            font-weight: 600;
+            padding: 15px 20px;
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .table th {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            color: #495057;
+            white-space: nowrap;
+            padding: 12px 15px;
+        }
+        
+        .table td {
+            vertical-align: middle;
+            padding: 10px 15px;
+        }
+        
+        .action-buttons .btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .select-all-checkbox {
+            margin-right: 5px;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            
+            .card-header h5 {
+                margin-bottom: 10px;
+            }
+            
+            .batch-actions {
+                width: 100%;
+            }
+            
+            .batch-actions .btn-group {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .batch-actions .btn-group .btn {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .table-responsive {
+                border: 1px solid #dee2e6;
+                border-radius: 5px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .table th, .table td {
+                padding: 8px 5px;
+                font-size: 13px;
+                min-width: 100px;
+            }
+            
+            .action-buttons {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            
+            .action-buttons .btn {
+                flex: 1;
+                min-width: 70px;
+                margin: 2px;
+                font-size: 12px;
+            }
+            
+            .stat-card .card-body {
+                padding: 15px;
+            }
+            
+            .stat-card h2 {
+                font-size: 1.5rem;
+            }
+            
+            .stat-icon {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .modal-dialog {
+                margin: 10px;
+                max-width: calc(100% - 20px);
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* 复选框样式 */
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* 悬停效果 */
+        .table-hover tbody tr:hover {
+            background-color: rgba(74, 111, 165, 0.05);
+        }
+        
+        /* 分页样式 */
+        .pagination .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .pagination .page-link {
+            color: var(--primary-color);
+        }
+        
+        .pagination .page-link:hover {
+            color: #fff;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* 搜索表单样式 */
+        .search-form .form-control {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8px 12px;
+        }
+        
+        .search-form label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        /* 空状态样式 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }

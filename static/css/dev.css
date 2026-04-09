@@ -1,0 +1,30 @@
+.container p.form-tip {
+    margin-top: 0.32rem;
+}
+.navbar-toggler-icon{
+    width: unset;
+    height: unset;
+}
+p.error-tip {
+    margin-top: 0.32rem;
+    font-family: segoeui;
+    font-weight: normal;
+    font-size: 1.28rem;
+	color: red;
+    line-height: 1.81rem;
+}
+
+div:where(.swal2-container) h2:where(.swal2-title){
+    font-weight:500 !important;
+    font-size:1.4em !important;
+    padding:1.8em 1em 0 !important;
+}
+div:where(.swal2-container) div:where(.swal2-popup){
+    padding:0 0 1.8em !important;
+}
+.swal2-confirm,.swal2-cancel{
+    width:6rem !important;
+}
+.swal2-actions{
+    margin-top:1.8em !important;
+}

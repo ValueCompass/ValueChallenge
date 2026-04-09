@@ -1,0 +1,201 @@
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .chart-container {
+        height: 300px;
+    }
+}
+
+/* 通用样式 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+}
+
+.badge {
+    font-size: 0.9em;
+    padding: 0.4em 0.8em;
+}
+
+/* 表单样式 */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.custom-file-label::after {
+    content: "浏览";
+}
+
+/* 状态标签 */
+.status-submitted {
+    color: #17a2b8;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.status-reviewing {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+}
+
+.status-not_qualified {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.status-collected {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.status-advanced_collected {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+/* 图表容器 */
+.chart-container {
+    position: relative;
+    margin: 20px auto;
+}
+
+/* 加载动画 */
+.spinner-border {
+    vertical-align: middle;
+}
+
+/* 响应式表格 */
+@media (max-width: 575.98px) {
+    .table td, .table th {
+        padding: 0.5rem;
+    }
+}
+
+/* 协议页面 */
+.agreement-content {
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+}
+
+/* 个人中心 */
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.submission-item {
+    border-left: 4px solid #007bff;
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.submission-item.status-reviewing {
+    border-left-color: #ffc107;
+}
+
+.submission-item.status-collected {
+    border-left-color: #28a745;
+}
+
+.submission-item.status-advanced_collected {
+    border-left-color: #17a2b8;
+}
+
+.submission-item.status-not_qualified {
+    border-left-color: #dc3545;
+}
+
+/* 画廊 */
+.gallery-item {
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+}
+
+.gallery-img {
+    height: 200px;
+    object-fit: cover;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: #006ffe;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #006ffe;
+    border-color: #006ffe;
+}
+a {
+    color: unset;
+    text-decoration: none;
+    background-color: transparent;
+}
+a:hover {
+    color: #006ffe;
+    text-decoration: underline;
+}
+.badge-primary {
+    color: #fff;
+    background-color: #006ffe;
+}
+.text-primary {
+    color: #006ffe !important;
+}
+.btn-success {
+    color: #fff;
+    background-color: #208636;
+    border-color: #208636;
+}
+:root {
+    --blue: #006ffe;
+}
