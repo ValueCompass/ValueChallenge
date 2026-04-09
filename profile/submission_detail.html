@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Details - Global AI Values Challenge</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/fontawesome/css/all.min.css">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/dev.css" rel="stylesheet">
+    <style>
+    a:hover{text-decoration:unset;}
+    .info-card { background-color: #f8f9fa; border-radius: 5px; padding: 20px; height: 100%; }
+    .info-card .table th { border-top: none; font-weight: 600; }
+    .info-card .table tr:last-child td { border-bottom: none; }
+    .action-buttons .btn { margin-bottom: 10px; }
+    .question-content .card.bg-light { border-left: 4px solid #007bff; }
+    .timeline { position: relative; padding-left: 30px; }
+    .timeline-item { position: relative; margin-bottom: 20px; }
+    .timeline-marker {
+        position: absolute; left: -30px; top: 5px;
+        width: 12px; height: 12px; border-radius: 50%;
+        background-color: #007bff; border: 2px solid white;
+        box-shadow: 0 0 0 2px #007bff;
+    }
+    .timeline-content { background-color: #f8f9fa; border-radius: 5px; padding: 15px; }
+    .timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .timeline-date { color: #6c757d; font-size: 0.9em; }
+    .timeline-notes { color: #495057; font-size: 0.95em; margin-bottom: 0; }
+    @media (max-width: 768px) {
+        .timeline { padding-left: 20px; }
+        .timeline-marker { left: -20px; }
+        .timeline-header { flex-direction: column; align-items: flex-start; }
+        .timeline-date { margin-top: 5px; }
+    }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div id="header-placeholder"></div>
+    <div class="banner"><img src="/static/images/banner@2x.jpg" alt=""></div>
+    <div id="nav-placeholder"></div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Submission Details</h4>
+                </div>
+                <div class="card-body" id="detail-content">
+                    <p class="text-muted text-center py-5">Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+</div>
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/sweetalert2@11.js"></script>
+<script src="/static/js/common.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/app.js"></script>
+<script>
+var questionId = null;
+
+$(function() {
+    App.initLayout('submit');
+
+    var params = new URLSearchParams(window.location.search);
+    questionId = params.get('id');
+    if (!questionId) { lk.alert.info('Missing submission ID'); return; }
+
+    Auth.apiGet('/profile/submission/' + questionId).then(function(result) {
+        if (result.code !== 200) { lk.alert.info(result.msg); return; }
+        var q = result.data.question;
+        var statusMap = result.data.question_status || {};
+        var reviewStatusMap = result.data.review_status || {};
+        var apiBase = window.APP_CONFIG.API_BASE_URL;
+
+        // Build actions
+        var actionsHtml = '';
+        if (q.status < 3) {
+            if (q.status == 0 || q.status == 2) {
+                actionsHtml += '<a href="/submission/edit.html?id=' + q.id + '" class="btn btn-warning btn-block mb-2"><i class="fas fa-edit"></i> Edit Question</a>';
+            }
+            actionsHtml += '<button type="button" class="btn btn-danger btn-block mb-2" onclick="withdrawQuestion(' + q.id + ')"><i class="fas fa-trash-alt"></i> Delete Question</button>';
+        }
+        if (q.attachment_name) {
+            actionsHtml += '<a href="' + apiBase + '/uploads/' + App.escHtml(q.attachment_path) + '" target="_blank" class="btn btn-info btn-block mb-2"><i class="fas fa-download"></i> Download Attachment</a>';
+        }
+        actionsHtml += '<a href="/profile/index.html" class="btn btn-outline-secondary btn-block"><i class="fas fa-arrow-left"></i> Back to Profile</a>';
+
+        // Build review timeline
+        var timelineHtml = '';
+        var tasks = q.review_task || [];
+        if (tasks.length > 0) {
+            tasks.forEach(function(task) {
+                timelineHtml += '<div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content">'
+                    + '<div class="timeline-header"><strong>' + App.escHtml(reviewStatusMap[task.status] || '') + '</strong>'
+                    + '<span class="timeline-date">' + App.escHtml(task.created_at) + '</span></div>';
+                if (task.reviewer_notes) {
+                    timelineHtml += '<p class="timeline-notes">' + App.escHtml(task.reviewer_notes) + '</p>';
+                }
+                if (task.attachment_path) {
+                    timelineHtml += '<a href="' + App.escHtml(task.attachment_path) + '" target="_blank" class="btn btn-info btn-block mb-2"><i class="fas fa-download"></i> Download Attachment</a>';
+                }
+                timelineHtml += '</div></div>';
+            });
+        } else {
+            timelineHtml = '<div class="text-center py-3"><p class="text-muted">No reviewer history available</p></div>';
+        }
+
+        // Justification section
+        var justHtml = '';
+        if (q.answer_justification) {
+            justHtml = '<h5>Answer Justification</h5><div class="card bg-light mb-4"><div class="card-body"><p>'
+                + App.escHtml(q.answer_justification).replace(/\n/g, '<br>') + '</p></div></div>';
+        }
+
+        var themeName = (q.theme && q.theme.name) ? q.theme.name : '';
+
+        document.getElementById('detail-content').innerHTML =
+            '<div class="row mb-4">'
+            + '<div class="col-md-6"><div class="info-card"><h6 class="text-muted mb-2">Basic Information</h6>'
+            + '<table class="table table-sm">'
+            + '<tr><th width="40%">Submission ID:</th><td>#' + q.id + '</td></tr>'
+            + '<tr><th>Theme:</th><td>' + App.escHtml(themeName) + '</td></tr>'
+            + '<tr><th>Submitted:</th><td>' + App.escHtml(q.created_at) + '</td></tr>'
+            + '<tr><th>Last Updated:</th><td>' + App.escHtml(q.updated_at) + '</td></tr>'
+            + '<tr><th>Status:</th><td><span class="badge badge-success">' + App.escHtml(statusMap[q.status] || '') + '</span></td></tr>'
+            + '</table></div></div>'
+            + '<div class="col-md-6"><div class="info-card"><h6 class="text-muted mb-2">Actions</h6>'
+            + '<div class="action-buttons">' + actionsHtml + '</div></div></div>'
+            + '</div>'
+            + '<div class="row"><div class="col-12"><div class="question-content">'
+            + '<h5>Question</h5><div class="card bg-light mb-4"><div class="card-body"><p>' + App.escHtml(q.question_title) + '</p></div></div>'
+            + '<h5>Answer</h5><div class="card bg-light mb-4"><div class="card-body"><p>' + App.escHtml(q.answer_content) + '</p></div></div>'
+            + justHtml
+            + '</div></div></div>'
+            + '<div class="row mt-4"><div class="col-12"><div class="status-history">'
+            + '<h5>Reviewer History</h5><div class="timeline">' + timelineHtml + '</div>'
+            + '</div></div></div>';
+    });
+});
+
+function withdrawQuestion(qid) {
+    lk.alert.confirm('Are you sure you want to withdraw this question? This action cannot be undone.', function(isOk) {
+        if (isOk) {
+            Auth.apiPost('/submission/withdraw/' + qid, {})
+                .then(function(result) {
+                    if (result.code === 200) {
+                        lk.alert.info(result.msg, function() { window.location.href = '/profile/index.html'; });
+                    } else { lk.alert.info(result.msg); }
+                })
+                .catch(function() { lk.alert.info('Network error, please try again.'); });
+        }
+    });
+}
+</script>
+</body>
+</html>

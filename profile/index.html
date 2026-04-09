@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Global AI Values Challenge</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/fontawesome/css/all.min.css">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/dev.css" rel="stylesheet">
+    <style>a:hover{text-decoration:unset;}</style>
+</head>
+<body>
+<div id="app">
+    <div id="header-placeholder"></div>
+    <div class="banner"><img src="/static/images/banner@2x.jpg" alt=""></div>
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <div class="profile-content-wrap">
+            <aside class="profile-sidebar">
+                <div class="user-info-item">
+                    <img src="/static/images/email-icon.png" alt="">
+                    <span id="user-email"></span>
+                </div>
+                <div class="user-info-item">
+                    <img src="/static/images/title-icon.png" alt="">
+                    <span id="user-occupation"></span>
+                </div>
+                <div class="user-info-item">
+                    <img src="/static/images/field-icon.png" class="field-icon" alt="">
+                    <span id="user-field"></span>
+                </div>
+            </aside>
+
+            <main class="submission-list" id="submission-list">
+                <p class="text-muted text-center py-5">Loading...</p>
+            </main>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+</div>
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/sweetalert2@11.js"></script>
+<script src="/static/js/common.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/app.js"></script>
+<script>
+$(function() {
+    App.initLayout('submit');
+
+    Auth.apiGet('/profile').then(function(result) {
+        if (result.code !== 200) { lk.alert.info(result.msg); return; }
+        var user = result.data.user;
+        var questions = result.data.questions || [];
+        var statusMap = result.data.question_status || {};
+
+        // Sidebar
+        $('#user-email').text(user.email || '');
+        $('#user-occupation').text(user.occupation || '');
+        $('#user-field').text((user.major || '') + ' ' + (user.institution || ''));
+
+        // Submissions
+        var listEl = document.getElementById('submission-list');
+        if (questions.length === 0) {
+            listEl.innerHTML = '<p class="text-muted text-center py-5">No submissions yet. <a href="/submission/submit.html">Create one</a></p>';
+            return;
+        }
+
+        var html = '';
+        questions.forEach(function(q) {
+            var statusLabel = statusMap[q.status] || 'Unknown';
+            var actions = '';
+            if (q.status < 3) {
+                if (q.status == 0 || q.status == 2) {
+                    actions += '<a href="/submission/edit.html?id=' + q.id + '">Edit</a>';
+                }
+                actions += '<a href="javascript:void(0);" onclick="withdrawQuestion(' + q.id + ')">Delete</a>';
+            }
+
+            html += '<div class="submission-item">'
+                + '<h3>Submission ' + App.escHtml(q.roman || '') + ' <div class="status-tag">' + App.escHtml(statusLabel) + '</div></h3>'
+                + '<div class="submission-meta"><span><b>Q:</b></span><span class="submission-text">' + App.escHtml(q.question_title) + '</span></div>'
+                + '<div class="submission-meta"><span><b>A:</b></span><span class="submission-text">' + App.escHtml(q.answer_content) + '</span></div>';
+
+            if (actions) {
+                html += '<div class="submission-actions">' + actions + '</div>';
+            }
+            if (q.admin_feedback) {
+                html += '<div class="remarks"><h4>Committee Remarks</h4><p class="submission-text">' + App.escHtml(q.admin_feedback) + '</p></div>';
+            }
+            html += '</div>';
+        });
+        listEl.innerHTML = html;
+    });
+});
+
+function withdrawQuestion(questionId) {
+    lk.alert.confirm("Are you sure you want to delete this question? This action cannot be undone.", function(isOk) {
+        if (isOk) {
+            Auth.apiPost('/submission/withdraw/' + questionId, {})
+                .then(function(result) {
+                    if (result.code === 200) {
+                        lk.alert.info(result.msg, function() { location.reload(); });
+                    } else {
+                        lk.alert.info(result.msg);
+                    }
+                })
+                .catch(function() { lk.alert.info('Network error, please try again.'); });
+        }
+    });
+}
+</script>
+</body>
+</html>

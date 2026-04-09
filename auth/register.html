@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - Global AI Values Challenge</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/fontawesome/css/all.min.css">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/dev.css" rel="stylesheet">
+    <style>a:hover{text-decoration:unset;} .hide{display:none} .show{display:block}</style>
+</head>
+<body>
+<div id="app">
+    <div id="header-placeholder"></div>
+    <div class="banner"><img src="/static/images/banner@2x.jpg" alt=""></div>
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <div class="form-title">
+            <img src="/static/images/reg-icon.png" class="reg-icon" alt="">
+            <span>Registration</span>
+        </div>
+        <div class="form-container form-registration">
+            <form id="registerForm" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="required">Email Address</label>
+                    <input type="email" placeholder="Please enter your email" id="email" name="email">
+                    <p class="form-tip">Please use an organizational, institutional, or university email address to register.</p>
+                </div>
+                <div class="form-group">
+                    <label class="required">Password</label>
+                    <input type="password" placeholder="Please enter your password" id="password" name="password" maxlength="12">
+                    <p class="form-tip">Password must be at least 8 characters and contain uppercase, lowercase letters, and numbers.</p>
+                </div>
+                <div class="form-group">
+                    <label class="required">Title</label>
+                    <select id="occupation" name="occupation">
+                        <option value="">Please select your title</option>
+                        <optgroup label="Students">
+                            <option value="Undergraduate Student">Undergraduate Student</option>
+                            <option value="Master's Student">Master's Student</option>
+                            <option value="Doctoral Student">Doctoral Student</option>
+                        </optgroup>
+                        <optgroup label="Faculty / Teaching Staff">
+                            <option value="Assistant Professor / Lecturer">Assistant Professor / Lecturer</option>
+                            <option value="Associate Professor">Associate Professor</option>
+                            <option value="Professor">Professor</option>
+                        </optgroup>
+                        <optgroup label="Research Positions">
+                            <option value="Postdoctoral Research">Postdoctoral Research</option>
+                            <option value="Assistant Researcher">Assistant Researcher</option>
+                            <option value="Associate Researcher">Associate Researcher</option>
+                            <option value="Researcher">Researcher</option>
+                            <option value="Senior Researcher / Distinguished Researcher">Senior Researcher / Distinguished Researcher</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="required">Field of Research</label>
+                    <select id="major" name="major">
+                        <option value="">Please select</option>
+                        <option value="Computational Social Science">Computational Social Science</option>
+                        <option value="Psychology">Psychology</option>
+                        <option value="Sociology">Sociology</option>
+                        <option value="Philosophy">Philosophy</option>
+                        <option value="Ethics">Ethics</option>
+                        <option value="Law">Law</option>
+                        <option value="Literature">Literature</option>
+                        <option value="Journalism">Journalism</option>
+                        <option value="Communication">Communication</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" class="form-control hide" id="institution" name="institution" placeholder="Please specify" style="margin-top: 10px;">
+                    <p class="form-tip">Please select the option that best reflects your primary academic background or research area.</p>
+                </div>
+                <p class="form-during">
+                    During the registration process, we will collect your email, title and field of research. We will conduct data analysis within the Global AI Value Challenge. Personal data will not be disclosed to any third party. Within six months after the challenge concludes, we will anonymize personal data, and you may need to agree to the <a href="https://www.microsoft.com/zh-cn/privacy/privacystatement">Microsoft Privacy Statement</a>. If you have any objections, please contact us via <a href="mailto:aivaluechallenge@gmail.com">aivaluechallenge@gmail.com</a>.
+                </p>
+                <div class="checkbox-line">
+                    <input type="checkbox" id="agree" name="agree">
+                    <label for="agree">I agree to above Consent &amp; Microsoft Privacy Statement</label>
+                </div>
+                <div class="action-btns">
+                    <button class="btn-primary" id="registerBtn">Create Account</button>
+                </div>
+                <div id="registerResult" class="mt-3"></div>
+            </form>
+        </div>
+    </div>
+    <!-- Consent Modal (same structure as original) -->
+    <div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
+        <div class="modal-container modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header"><h1>Pre-Submission Confirmation</h1></div>
+                <div class="modal-content">
+                    <p>Thank you for taking the time to consider volunteering in a Microsoft Research project...</p>
+                    <!-- Full consent text should be placed here (same as original template) -->
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="read_agreement">
+                        <label for="read_agreement">I have carefully read and agree to above consent.</label>
+                    </div>
+                    <p>If you would like to keep a copy of this consent form, please print or save one now.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-submit" type="button" id="agreeBtn" disabled onclick="registerSubmit()">Submit</button>
+                    <button class="btn-back" type="button" data-bs-dismiss="modal">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+</div>
+
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/js/additional-methods.min.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/sweetalert2@11.js"></script>
+<script src="/static/js/common.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/app.js"></script>
+<script>
+$(function() {
+    App.initLayout('index');
+
+    $("#registerForm").validate({
+        errorClass: "error-tip", errorElement: "p",
+        errorPlacement: function(error, element) {
+            if (element.attr("name") == "agree") {
+                error.css({"margin-top":"-60px","display":"flex","justify-content":"center"});
+                error.insertAfter(element.closest('.checkbox-line'));
+            } else { error.insertAfter(element); }
+        },
+        rules: {
+            email: { required: true, email: true },
+            password: { required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,12}$/ },
+            occupation: { required: true },
+            major: { required: true },
+            institution: { required: true },
+            agree: { required: true }
+        },
+        messages: {
+            email: { required: "Please enter your email", email: "The email format you entered is incorrect" },
+            password: { required: "Please enter your password", pattern: "Password must be 8-12 characters long and contain uppercase letters, lowercase letters, and numbers" },
+            occupation: { required: "Please enter Title" },
+            major: { required: "Please enter Field of Research" },
+            institution: { required: "Please enter Other Field of Research" },
+            agree: { required: "You must agree to the terms" }
+        }
+    });
+
+    $(".checkbox-container").click(function() {
+        if (!$('#read_agreement').is(':checked')) {
+            $('#read_agreement').prop('checked', true); $("#agreeBtn").attr('disabled', false);
+        } else {
+            $('#read_agreement').prop('checked', false); $("#agreeBtn").attr('disabled', true);
+        }
+    });
+
+    $('#email').val(localStorage.getItem('msra_login_email'));
+
+    document.getElementById('major').addEventListener('change', function() {
+        if (this.value == 'Other') { document.getElementById('institution').classList.add('show'); }
+        else { document.getElementById('institution').classList.remove('show'); }
+    });
+});
+
+function registerSubmit() {
+    event.preventDefault();
+    var btn = document.getElementById('registerBtn');
+    if (!$("#registerForm").valid()) return false;
+
+    var formData = new FormData(document.getElementById('registerForm'));
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
+
+    Auth.apiPost('/auth/register', Object.fromEntries(formData))
+        .then(function(result) {
+            if (result.code === 200) {
+                lk.alert.confirm("Registration successful! Thanks for your registration. You will receive a confirmation email after Global AI Values Challenge Committee Team approve your registration", function(isOk) {
+                    if (isOk) window.location.href = '/index.html';
+                });
+            } else {
+                if (result.field) { $("#registerForm").validate().showErrors({ [result.field]: result.msg }); }
+                else { lk.alert.info("Registration fail! " + result.msg); }
+            }
+        })
+        .catch(function() { lk.alert.info('Network error, please try again.'); })
+        .finally(function() { btn.disabled = false; btn.innerHTML = 'Create Account'; });
+    return false;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Question - Global AI Values Challenge</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/fontawesome/css/all.min.css">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/dev.css" rel="stylesheet">
+    <style>a:hover{text-decoration:unset;}</style>
+</head>
+<body>
+<div id="app">
+    <div id="header-placeholder"></div>
+    <div class="banner"><img src="/static/images/banner@2x.jpg" alt=""></div>
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <div class="form-container">
+            <h6><img src="/static/images/star.png" alt=""> All submissions must be provided in English.</h6>
+            <form id="questionForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label class="required">Theme</label>
+                    <select id="theme_id" name="theme_id"><option value="">Please select</option></select>
+                </div>
+                <div class="form-group">
+                    <label class="required">Value-, Morality-, or Ethics-related Question</label>
+                    <textarea placeholder="No more than 512 words" id="question_title" name="question_title" maxlength="5120"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="required">Proposed Answer</label>
+                    <textarea placeholder="No more than 128 words" id="answer_content" name="answer_content" style="min-height:5rem;" maxlength="1280"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="required">Answer Justification</label>
+                    <textarea placeholder="No more than 1024 words" id="answer_justification" name="answer_justification" maxlength="10240"></textarea>
+                    <p class="form-tip">Explains the reasoning, validity, and uniqueness of the answer.</p>
+                </div>
+                <div class="form-group">
+                    <label>Supporting Materials Upload (Optional)</label>
+                    <div class="file-upload" style="height:54px;">
+                        <span class="txtFileName">Choose File</span>
+                        <input type="file" class="custom-file-input" id="fileUpload" name="attachment" accept=".doc,.docx,.pdf">
+                        <label for="fileUpload">Upload</label>
+                    </div>
+                    <p class="form-tip">Word (.doc/.docx) or PDF file may be uploaded as supporting attachment.</p>
+                </div>
+                <div class="form-group flex-group">
+                    <label class="required">Name / Pseudonym</label>
+                    <input type="text" id="legal_full_name" name="legal_full_name" maxlength="50">
+                    <p class="form-tip">If accepted, your name or pseudonym will be presented in Polaris.</p>
+                </div>
+                <div class="action-btns">
+                    <button class="btn-primary" type="button" id="Save" onclick="submitSubmission(2,'Save')">Save</button>
+                    <button type="button" class="btn btn-primary btn-lg px-5 py-3 btn-demo" id="openModalBtn">Submit</button>
+                </div>
+                <div id="resultMessage" class="mt-3"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Consent Modal -->
+    <div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
+        <div class="modal-container modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header"><h1>Pre-Submission Confirmation</h1></div>
+                <div class="modal-content">
+                    <p>Thank you for volunteering in a Microsoft Research project...</p>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="read_agreement" name="read_agreement">
+                        <label for="read_agreement">I have carefully read and agree to above consent.</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="agreeBtn" disabled class="btn-submit" onclick="handleCustomSave(event)">Submit</button>
+                    <button class="btn-back" data-bs-dismiss="modal" type="button">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+</div>
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/js/additional-methods.min.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/sweetalert2@11.js"></script>
+<script src="/static/js/common.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/app.js"></script>
+<script>
+$(function() {
+    App.initLayout('submit');
+
+    // Load themes from API
+    Auth.apiGet('/submission/init').then(function(result) {
+        var themes = result.data.themes || [];
+        var sel = document.getElementById('theme_id');
+        themes.forEach(function(t) {
+            var opt = document.createElement('option');
+            opt.value = t.id; opt.textContent = t.name;
+            sel.appendChild(opt);
+        });
+    });
+
+    $.validator.addMethod("wordLimit", function(value, element, maxWords) {
+        if (!value) return true;
+        var words = value.replace(/[,.!?;:()\[\]{}'"<>\/\\|@#$%^&*+=~`]/g, ' ').trim().split(/\s+/).filter(function(w){return w.length>0;});
+        return words.length <= maxWords;
+    }, "The number of words exceeds the limit");
+
+    $("#questionForm").validate({
+        errorClass: "error-tip", errorElement: "p",
+        errorPlacement: function(error, element) { if(element.attr("name")=="legal_full_name"){error.css("width","100%");} error.insertAfter(element); },
+        rules: {
+            theme_id: { required: true }, question_title: { required: true, wordLimit: 512, minlength: 10 },
+            answer_content: { required: true, wordLimit: 128 }, answer_justification: { required: true, wordLimit: 1024, minlength: 10 },
+            attachment: { pattern: /\.(doc|docx|pdf)$/i }, legal_full_name: { required: true, maxlength: 50 }
+        },
+        messages: {
+            theme_id: { required: "Please select a Theme" },
+            question_title: { required: "Please enter the Question", wordLimit: "Max 512 words" },
+            answer_content: { required: "Please enter the Proposed Answer", wordLimit: "Max 128 words" },
+            answer_justification: { required: "Please enter the Answer Justification", wordLimit: "Max 1024 words" },
+            legal_full_name: { required: "Please enter Name / Pseudonym" }
+        }
+    });
+
+    var modalElement = document.getElementById('modal1');
+    var modalInstance = new bootstrap.Modal(modalElement);
+    document.getElementById('openModalBtn').addEventListener('click', function() {
+        if ($("#questionForm").valid()) { modalInstance.show(); }
+    });
+
+    $(".checkbox-container").click(function(e) {
+        var cb = document.getElementById('read_agreement');
+        if (e.target !== cb) { cb.checked = !cb.checked; }
+        $("#agreeBtn").attr('disabled', !cb.checked);
+    });
+
+    document.getElementById('fileUpload').addEventListener('change', function(e) {
+        $('.txtFileName').text(e.target.files[0] ? e.target.files[0].name : 'Choose File');
+    });
+});
+
+function handleCustomSave(event) { event.preventDefault(); submitSubmission(1, 'agreeBtn'); }
+
+function submitSubmission(val, btnname) {
+    if (!$("#questionForm").valid()) return false;
+    var btn = document.getElementById(btnname);
+    if (val == 1 && !document.getElementById('read_agreement').checked) {
+        lk.alert.info("You must agree to the participation terms before submitting."); return false;
+    }
+    var formData = new FormData(document.getElementById('questionForm'));
+    formData.append('submit_type', val);
+    btn.disabled = true;
+
+    Auth.apiPostForm('/submission/submit', formData)
+        .then(function(result) {
+            if (result.code === 200) {
+                lk.alert.info(val == 2 ? 'Successfully Saved!' : 'Successfully Submitted!', function() { window.location.href = '/profile/index.html'; });
+            } else {
+                if (result.field) { $("#questionForm").validate().showErrors({ [result.field]: result.msg }); }
+                else { lk.alert.info(result.msg); }
+            }
+        })
+        .catch(function() { lk.alert.info("Network error, please try again."); })
+        .finally(function() { btn.disabled = false; });
+    return false;
+}
+</script>
+</body>
+</html>
