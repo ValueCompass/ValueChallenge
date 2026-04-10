@@ -267,7 +267,7 @@ $(function() {
             .then(function(result) {
                 if (result.code === 200) {
                     localStorage.setItem('msra_login_email', email);
-                    window.location.href = result.url || '/auth/login.html';
+                    window.location.href = App.url(result.url || '/auth/login.html');
                 }
             })
             .catch(function() { showError("Operation failed"); });

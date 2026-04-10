@@ -121,6 +121,15 @@ window.App = (function () {
     }
 
     /**
+     * Prepend BASE_URL to an in-app path so navigation works regardless of
+     * whether the site is deployed at the domain root or a subdirectory.
+     * Usage: App.url('/auth/login.html')
+     */
+    function url(path) {
+        return (window.APP_CONFIG.BASE_URL || '') + path;
+    }
+
+    /**
      * Escape HTML to prevent XSS when inserting user data.
      */
     function escHtml(str) {
@@ -134,6 +143,7 @@ window.App = (function () {
         getHeadIncludes: getHeadIncludes,
         initLayout: initLayout,
         escHtml: escHtml,
+        url: url,
         S: S
     };
 })();

@@ -147,7 +147,7 @@ function submitAgreement() {
             if (result.code === 200) {
                 resultDiv.innerHTML = '<div class="alert alert-success"><h5>Agreement Accepted!</h5><p>' + App.escHtml(result.msg) + '</p><p class="mb-0">Redirecting to submission page...</p></div>';
                 setTimeout(function() {
-                    window.location.href = result.url || '/submission/submit.html';
+                    window.location.href = App.url(result.url || '/submission/submit.html');
                 }, 2000);
             } else {
                 resultDiv.innerHTML = '<div class="alert alert-danger">' + App.escHtml(result.msg) + '</div>';

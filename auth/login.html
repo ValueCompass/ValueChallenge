@@ -93,7 +93,7 @@ function loginSubmit() {
             if (result.code === 200) {
                 Auth.setToken(result.data.token);
                 Auth.setUser(result.data.user);
-                window.location.href = '/index.html';
+                window.location.href = App.url('/index.html');
             } else {
                 if (result.field) {
                     $("#loginForm").validate().showErrors({ [result.field]: result.msg });

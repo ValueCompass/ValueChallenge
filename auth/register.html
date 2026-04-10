@@ -178,7 +178,7 @@ function registerSubmit() {
         .then(function(result) {
             if (result.code === 200) {
                 lk.alert.confirm("Registration successful! Thanks for your registration. You will receive a confirmation email after Global AI Values Challenge Committee Team approve your registration", function(isOk) {
-                    if (isOk) window.location.href = '/index.html';
+                    if (isOk) window.location.href = App.url('/index.html');
                 });
             } else {
                 if (result.field) { $("#registerForm").validate().showErrors({ [result.field]: result.msg }); }

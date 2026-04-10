@@ -150,7 +150,7 @@ function withdrawQuestion(qid) {
             Auth.apiPost('/submission/withdraw/' + qid, {})
                 .then(function(result) {
                     if (result.code === 200) {
-                        lk.alert.info(result.msg, function() { window.location.href = '/profile/index.html'; });
+                        lk.alert.info(result.msg, function() { window.location.href = App.url('/profile/index.html'); });
                     } else { lk.alert.info(result.msg); }
                 })
                 .catch(function() { lk.alert.info('Network error, please try again.'); });

@@ -186,7 +186,7 @@ function editSubmit(val, btnname) {
     Auth.apiPostForm('/submission/edit/' + questionId, formData)
         .then(function(result) {
             if (result.code === 200) {
-                lk.alert.info(val == 2 ? 'Successfully Saved!' : 'Successfully Submitted!', function() { window.location.href = '/profile/index.html'; });
+                lk.alert.info(val == 2 ? 'Successfully Saved!' : 'Successfully Submitted!', function() { window.location.href = App.url('/profile/index.html'); });
             } else {
                 if (result.field) { $("#questionForm").validate().showErrors({ [result.field]: result.msg }); }
                 else { lk.alert.info(result.msg); }
