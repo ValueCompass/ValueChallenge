@@ -3,6 +3,7 @@
  */
 window.App = (function () {
     var S = window.APP_CONFIG.STATIC_BASE_URL;
+    var B = window.APP_CONFIG.BASE_URL;
 
     /**
      * Get the common <head> CSS + JS includes as HTML string.
@@ -39,9 +40,9 @@ window.App = (function () {
             + '<img src="' + S + '/static/images/arrow-down.png" alt="" class="arrow-down">'
             + '</div>'
             + '<div class="user-dropdown" id="navbarNav" style="display:none">'
-            + '<a href="/profile/index.html">My Profile</a>'
-            + '<a href="/profile/index.html">My Submission</a>'
-            + '<a href="/profile/change_password.html">Change Password</a>'
+            + '<a href="' + B + '/profile/index.html">My Profile</a>'
+            + '<a href="' + B + '/profile/index.html">My Submission</a>'
+            + '<a href="' + B + '/profile/change_password.html">Change Password</a>'
             + '<a href="javascript:void(0);" onclick="Auth.logout()">Logout</a>'
             + '</div></header>';
     }
@@ -73,10 +74,10 @@ window.App = (function () {
         }
 
         el.innerHTML = '<div class="container"><nav>'
-            + link('/index.html', 'index', 'overview@2x.png', 'Overview')
-            + link('/about.html', 'about', 'Guideline@2x.png', 'Guideline')
-            + link('/submission/submit.html', 'submit', 'Submission@2x.png', 'Submission')
-            + link('/gallery.html', 'gallery', 'Leaderboard@2x.png', 'Leaderboard')
+            + link(B + '/index.html', 'index', 'overview@2x.png', 'Overview')
+            + link(B + '/about.html', 'about', 'Guideline@2x.png', 'Guideline')
+            + link(B + '/submission/submit.html', 'submit', 'Submission@2x.png', 'Submission')
+            + link(B + '/gallery.html', 'gallery', 'Leaderboard@2x.png', 'Leaderboard')
             + '</nav></div>';
     }
 
@@ -91,7 +92,7 @@ window.App = (function () {
             + '<a target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=521839">Privacy &amp; Cookies</a> | '
             + '<a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2259814">Consumer Health Privacy</a> | '
             + '<a target="_blank" href="https://www.microsoft.com/en-us/legal/terms-of-use">Terms of Use</a> | '
-            + '<a target="_blank" href="/conduct.html">Code of Conduct</a> | '
+            + '<a target="_blank" href="' + B + '/conduct.html">Code of Conduct</a> | '
             + '<a target="_blank" href="https://www.microsoft.com/trademarks">Trademarks</a> | '
             + '<a>&copy; 2026 Microsoft</a></p>'
             + '<p><a target="_blank" href="https://www.microsoft.com/" aria-label="microsoft" class="microsoft"></a></p>'

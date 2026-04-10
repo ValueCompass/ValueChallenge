@@ -42,7 +42,7 @@ window.Auth = (function () {
 
     function logout() {
         removeToken();
-        window.location.href = '/auth/login.html';
+        window.location.href = (window.APP_CONFIG.BASE_URL || '') + '/auth/login.html';
     }
 
     /**
@@ -66,7 +66,7 @@ window.Auth = (function () {
             return response.json().then(function (data) {
                 if (data.code === 401) {
                     removeToken();
-                    window.location.href = '/auth/login.html';
+                    window.location.href = (window.APP_CONFIG.BASE_URL || '') + '/auth/login.html';
                     throw new Error('Unauthorized');
                 }
                 return data;
