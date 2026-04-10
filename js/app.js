@@ -3,7 +3,22 @@
  */
 window.App = (function () {
     var S = window.APP_CONFIG.STATIC_BASE_URL;
-    var B = window.APP_CONFIG.BASE_URL;
+    var B = window.APP_CONFIG.BASE_URL || '';
+
+    // Compute the relative path to static/images/ from the current page.
+    // E.g. root page  → './static/images/'
+    //      auth/*.html → '../static/images/'
+    // This works for both local dev and GitHub Pages subdirectory deployment.
+    var _IMG = (function () {
+        var base = B;
+        var pathname = window.location.pathname;
+        // Strip the BASE_URL prefix if present, then count subdirectory depth
+        var rel = (base && pathname.indexOf(base) === 0)
+                  ? pathname.slice(base.length)
+                  : pathname;
+        var depth = Math.max(0, rel.replace(/^\//, '').split('/').filter(Boolean).length - 1);
+        return (depth > 0 ? new Array(depth).fill('..').join('/') + '/' : './') + 'static/images/';
+    }());
 
     /**
      * Get the common <head> CSS + JS includes as HTML string.
@@ -35,9 +50,9 @@ window.App = (function () {
         var user = Auth.getUser();
         el.innerHTML = '<header class="page-header">'
             + '<div class="user-nav navbar-toggler-icon">'
-            + '<img src="' + B + '/static/images/user-icon.png" class="user-icon" alt="">'
+            + '<img src="' + _IMG + 'user-icon.png" class="user-icon" alt="">'
             + '<span>' + (user ? user.username : '') + '</span>'
-            + '<img src="' + B + '/static/images/arrow-down.png" alt="" class="arrow-down">'
+            + '<img src="' + _IMG + 'arrow-down.png" alt="" class="arrow-down">'
             + '</div>'
             + '<div class="user-dropdown" id="navbarNav" style="display:none">'
             + '<a href="' + B + '/profile/index.html">My Profile</a>'
@@ -59,16 +74,16 @@ window.App = (function () {
         function link(href, page, icon, label) {
             if (loggedIn) {
                 return '<a href="' + href + '" class="' + cls(page) + '">'
-                    + '<img src="' + B + '/static/images/' + icon + '" alt="">'
+                    + '<img src="' + _IMG + icon + '" alt="">'
                     + '<span>' + label + '</span></a>';
             } else {
                 if (page === 'index') {
                     return '<a href="' + href + '" class="' + cls(page) + '">'
-                        + '<img src="' + B + '/static/images/' + icon + '" alt="">'
+                        + '<img src="' + _IMG + icon + '" alt="">'
                         + '<span>' + label + '</span></a>';
                 }
                 return '<a href="javascript:;" class="' + cls(page) + ' no-login-click">'
-                    + '<img src="' + B + '/static/images/' + icon + '" alt="">'
+                    + '<img src="' + _IMG + icon + '" alt="">'
                     + '<span>' + label + '</span></a>';
             }
         }
