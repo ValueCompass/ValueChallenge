@@ -35,9 +35,9 @@ window.App = (function () {
         var user = Auth.getUser();
         el.innerHTML = '<header class="page-header">'
             + '<div class="user-nav navbar-toggler-icon">'
-            + '<img src="' + S + '/static/images/user-icon.png" class="user-icon" alt="">'
+            + '<img src="' + B + '/static/images/user-icon.png" class="user-icon" alt="">'
             + '<span>' + (user ? user.username : '') + '</span>'
-            + '<img src="' + S + '/static/images/arrow-down.png" alt="" class="arrow-down">'
+            + '<img src="' + B + '/static/images/arrow-down.png" alt="" class="arrow-down">'
             + '</div>'
             + '<div class="user-dropdown" id="navbarNav" style="display:none">'
             + '<a href="' + B + '/profile/index.html">My Profile</a>'
@@ -59,16 +59,16 @@ window.App = (function () {
         function link(href, page, icon, label) {
             if (loggedIn) {
                 return '<a href="' + href + '" class="' + cls(page) + '">'
-                    + '<img src="' + S + '/static/images/' + icon + '" alt="">'
+                    + '<img src="' + B + '/static/images/' + icon + '" alt="">'
                     + '<span>' + label + '</span></a>';
             } else {
                 if (page === 'index') {
                     return '<a href="' + href + '" class="' + cls(page) + '">'
-                        + '<img src="' + S + '/static/images/' + icon + '" alt="">'
+                        + '<img src="' + B + '/static/images/' + icon + '" alt="">'
                         + '<span>' + label + '</span></a>';
                 }
                 return '<a href="javascript:;" class="' + cls(page) + ' no-login-click">'
-                    + '<img src="' + S + '/static/images/' + icon + '" alt="">'
+                    + '<img src="' + B + '/static/images/' + icon + '" alt="">'
                     + '<span>' + label + '</span></a>';
             }
         }
