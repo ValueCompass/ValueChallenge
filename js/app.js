@@ -15,10 +15,12 @@ window.App = (function () {
             + '<title>' + title + '</title>'
             + '<link href="' + S + '/static/css/bootstrap.min.css" rel="stylesheet">'
             + '<link href="' + S + '/static/css/style.css" rel="stylesheet">'
-            + '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">'
+            + '<link rel="stylesheet" href="' + S + '/static/fontawesome/css/all.min.css">'
+            + '<script src="' + S + '/static/js/chart.min.js"><\/script>'
             + '<link href="' + S + '/static/css/main.css" rel="stylesheet">'
             + '<link href="' + S + '/static/css/dev.css" rel="stylesheet">'
             + '<link rel="stylesheet" href="' + S + '/static/css/cookieconsent.css">'
+            + '<script type="text/javascript" src="' + S + '/static/js/cookieconsent.umd.js"><\/script>'
             + '<style>a:hover{text-decoration:unset;}</style>';
     }
 
