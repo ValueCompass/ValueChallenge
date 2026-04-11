@@ -48,14 +48,14 @@
                     <p class="form-tip">Explains the reasoning, validity, and uniqueness of the answer.</p>
                 </div>
                 <div class="form-group">
-                    <label>Supporting Materials Upload (Optional)</label>
+                    <label>Supporting Materials Upload ( Optional )</label>
                     <div class="file-upload" style="height:54px;">
                         <span id="fileLabel">Choose File</span>
-                        <input type="file" class="custom-file-input" id="fileUpload" name="attachment" accept=".doc,.docx,.pdf">
-                        <label for="fileUpload">Upload</label>
+                        <input type="file" class="custom-file-input" id="fileUpload" name="attachment" accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                        <label for="fileUpload" id="fileDisplayLabel">Choose new Word document (optional)</label>
                     </div>
                     <small class="form-text text-muted" id="currentFile"></small>
-                    <p class="form-tip">Word (.doc/.docx) or PDF file may be uploaded.</p>
+                    <p class="form-tip">If necessary, a Word (.doc/.docx) or PDF file may be uploaded as a supporting attachment to provide images, links, references, or additional explanations.</p>
                 </div>
                 <div class="form-group flex-group">
                     <label class="required">Name / Pseudonym</label>
@@ -188,7 +188,7 @@
                     <p>If you would like to keep a copy of this consent form, please print or save one now.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="SubmitBtn" disabled="disabled" class="btn-submit" onclick="handleCustomSave(event)">Submit</button>
+                    <button type="button" id="Submit" disabled="disabled" class="btn-submit" onclick="handleCustomSave(event)">Submit</button>
                     <button class="btn-back" data-bs-dismiss="modal" type="button">Back</button>
                 </div>
             </div>
@@ -232,7 +232,9 @@ $(function() {
         $('#answer_content').val(q.answer_content);
         $('#answer_justification').val(q.answer_justification);
         $('#legal_full_name').val(q.legal_full_name);
-        if (q.attachment_name) { $('#fileLabel').text('Current: ' + q.attachment_name); }
+        if (q.attachment_name) {
+            $('#fileDisplayLabel').text('Current: ' + q.attachment_name);
+        }
         if (q.attachment_path) {
             var apiBase = window.APP_CONFIG.API_BASE_URL;
             $('#currentFile').html('<a href="' + apiBase + '/uploads/' + q.attachment_path + '" target="_blank"><i class="fas fa-download"></i> Download current file</a>');
@@ -241,63 +243,139 @@ $(function() {
 
     $.validator.addMethod("wordLimit", function(value, element, maxWords) {
         if (!value) return true;
-        var words = value.replace(/[,.!?;:()\[\]{}'"<>\/\\|@#$%^&*+=~`]/g, ' ').trim().split(/\s+/).filter(function(w){return w.length>0;});
+        var cleanText = value.replace(/[,.!?;:()\[\]{}'"<>\/\\|@#$%^&*+=~`，。！？；：（）【】《》""''、]/g, ' ');
+        var words = cleanText.trim().split(/\s+/).filter(function(word) { return word.length > 0; });
         return words.length <= maxWords;
     }, "The number of words exceeds the limit");
 
     $("#questionForm").validate({
-        errorClass: "error-tip", errorElement: "p",
+        errorClass: "error-tip",
+        errorElement: "p",
+        errorPlacement: function(error, element) {
+            if (element.attr("name") == "legal_full_name") {
+                error.css("width", "100%");
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        },
         rules: {
-            theme_id: { required: true }, question_title: { required: true, wordLimit: 512, minlength: 10 },
-            answer_content: { required: true, wordLimit: 128 }, answer_justification: { required: true, wordLimit: 1024, minlength: 10 },
+            theme_id: { required: true },
+            question_title: { required: true, wordLimit: 512, minlength: 10, maxlength: 5120 },
+            answer_content: { required: true, wordLimit: 128, maxlength: 1280 },
+            answer_justification: { required: true, wordLimit: 1024, minlength: 10, maxlength: 10240 },
+            attachment: { pattern: /\.(doc|docx|pdf)$/i },
             legal_full_name: { required: true, maxlength: 50 }
         },
         messages: {
-            theme_id: { required: "Please select a Theme" }, question_title: { required: "Please enter the Question" },
-            answer_content: { required: "Please enter the Proposed Answer" }, answer_justification: { required: "Please enter the Answer Justification" },
-            legal_full_name: { required: "Please enter Name / Pseudonym" }
+            theme_id: { required: "Please select a Theme" },
+            question_title: {
+                required: "Please enter the Question",
+                wordLimit: "Question can contain a maximum of 512 words",
+                minlength: "Question must be at least 10 characters long",
+                maxlength: "Question can contain a maximum of 5120 characters"
+            },
+            answer_content: {
+                required: "Please enter the Proposed Answer",
+                wordLimit: "Proposed Answer can contain a maximum of 128 words",
+                maxlength: "Proposed Answer can contain a maximum of 1280 characters"
+            },
+            answer_justification: {
+                required: "Please enter the Answer Justification",
+                wordLimit: "Answer Justification can contain a maximum of 1024 words",
+                minlength: "Answer Justification must be at least 10 characters long",
+                maxlength: "Answer Justification can contain a maximum of 10240 characters"
+            },
+            attachment: { pattern: "Only doc, docx, and pdf files are supported" },
+            legal_full_name: {
+                required: "Please enter Name / Pseudonym",
+                maxlength: "Name / Pseudonym can contain a maximum of 50 characters"
+            }
         }
     });
 
-    var modalInstance = new bootstrap.Modal(document.getElementById('modal1'));
-    document.getElementById('openModalBtn').addEventListener('click', function() {
-        if ($("#questionForm").valid()) { modalInstance.show(); }
+    var modalElement = document.getElementById('modal1');
+    var modalInstance = null;
+    if (modalElement) {
+        modalInstance = new bootstrap.Modal(modalElement);
+    }
+    document.getElementById('openModalBtn').addEventListener('click', function(event) {
+        var isValid = $("#questionForm").valid();
+        if (isValid) {
+            if (modalInstance) {
+                modalInstance.show();
+            } else {
+                modalInstance = new bootstrap.Modal(modalElement);
+                modalInstance.show();
+            }
+        } else {
+            return false;
+        }
     });
 
     $(".checkbox-container").click(function(e) {
-        var cb = document.getElementById('read_agreement');
-        if (e.target !== cb) { cb.checked = !cb.checked; }
-        $("#SubmitBtn").attr('disabled', !cb.checked);
+        if (e.target.name == 'read_agreement') {
+            if (!$('#read_agreement').is(':checked')) {
+                $('#read_agreement').prop('checked', false);
+                $("#Submit").attr('disabled', true);
+            } else {
+                $('#read_agreement').prop('checked', true);
+                $("#Submit").attr('disabled', false);
+            }
+        } else {
+            if (!$('#read_agreement').is(':checked')) {
+                $('#read_agreement').prop('checked', true);
+                $("#Submit").attr('disabled', false);
+            } else {
+                $('#read_agreement').prop('checked', false);
+                $("#Submit").attr('disabled', true);
+            }
+        }
     });
 
     document.getElementById('fileUpload').addEventListener('change', function(e) {
-        $('#fileLabel').text(e.target.files[0] ? e.target.files[0].name : 'Choose File');
+        var fileName = e.target.files[0] ? e.target.files[0].name : 'Choose new Word document (optional)';
+        $('#fileDisplayLabel').text(fileName);
     });
 });
 
-function handleCustomSave(event) { event.preventDefault(); editSubmit(1, 'SubmitBtn'); }
+function handleCustomSave(event) { event.preventDefault(); editSubmit(1, 'Submit'); }
 
 function editSubmit(val, btnname) {
-    if (!$("#questionForm").valid()) return false;
+    var isValid = $("#questionForm").valid();
+    if (!isValid) { return false; }
     var btn = document.getElementById(btnname);
-    if (val == 1 && !document.getElementById('read_agreement').checked) {
-        lk.alert.info("You must agree to the participation terms."); return false;
-    }
+    var resultDiv = document.getElementById('resultMessage');
     var formData = new FormData(document.getElementById('questionForm'));
     formData.append('submit_type', val);
+    if (val == 1) {
+        if (!document.getElementById('read_agreement').checked) {
+            lk.alert.info("Fail! You must agree to the participation terms before submitting.");
+            return false;
+        }
+    }
     btn.disabled = true;
+    if (btnname == 'Submit') {
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Submitting...';
+    } else {
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Saving...';
+    }
 
     Auth.apiPostForm('/submission/edit/' + questionId, formData)
         .then(function(result) {
+            var showTitle = val == 2 ? 'Successfully Saved!' : 'Successfully Submitted!';
             if (result.code === 200) {
-                lk.alert.info(val == 2 ? 'Successfully Saved!' : 'Successfully Submitted!', function() { window.location.href = App.url('/profile/index.html'); });
+                lk.alert.info(showTitle, function() { window.location.href = App.url('/profile/index.html'); });
             } else {
                 if (result.field) { $("#questionForm").validate().showErrors({ [result.field]: result.msg }); }
                 else { lk.alert.info(result.msg); }
             }
         })
-        .catch(function() { lk.alert.info("Network error."); })
-        .finally(function() { btn.disabled = false; });
+        .catch(function() { lk.alert.info("Network error, please try again."); })
+        .finally(function() {
+            btn.disabled = false;
+            btn.innerHTML = btnname;
+        });
     return false;
 }
 </script>
