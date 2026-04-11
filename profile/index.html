@@ -73,7 +73,7 @@ $(function() {
         // Submissions
         var listEl = document.getElementById('submission-list');
         if (questions.length === 0) {
-            listEl.innerHTML = '<p class="text-muted text-center py-5">No submissions yet. <a href="/submission/submit.html">Create one</a></p>';
+            listEl.innerHTML = '<p class="text-muted text-center py-5">No submissions yet. <a href="' + App.url('/submission/submit.html') + '">Create one</a></p>';
             return;
         }
 
@@ -83,7 +83,7 @@ $(function() {
             var actions = '';
             if (q.status < 3) {
                 if (q.status == 0 || q.status == 2) {
-                    actions += '<a href="/submission/edit.html?id=' + q.id + '">Edit</a>';
+                    actions += '<a href="' + App.url('/submission/edit.html') + '?id=' + q.id + '">Edit</a>';
                 }
                 actions += '<a href="javascript:void(0);" onclick="withdrawQuestion(' + q.id + ')">Delete</a>';
             }
