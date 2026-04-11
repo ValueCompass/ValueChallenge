@@ -59,7 +59,7 @@
                 <div class="form-group flex-group">
                     <label class="required">Name / Pseudonym</label>
                     <input type="text" id="legal_full_name" name="legal_full_name" maxlength="50">
-                    <p class="form-tip">If accepted, your name or pseudonym will be presented in Polaris.</p>
+                    <p class="form-tip">If your submitted Q&amp;A pair is accepted, your name or a pseudonym of your choice will be presented in Polaris as a form of recognition for your contributions and accomplishments.</p>
                 </div>
                 <div class="action-btns">
                     <button class="btn-primary" type="button" id="Save" onclick="submitSubmission(2,'Save')">Save</button>
@@ -71,19 +71,123 @@
     </div>
 
     <!-- Consent Modal -->
-    <div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
         <div class="modal-container modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg border-0">
-                <div class="modal-header"><h1>Pre-Submission Confirmation</h1></div>
+                <div class="modal-header">
+                    <h1>Pre-Submission Confirmation</h1>
+                </div>
                 <div class="modal-content">
-                    <p>Thank you for volunteering in a Microsoft Research project...</p>
+                    <p>
+                        Thank you for taking the time to consider volunteering in a Microsoft Research project. The purpose of this research is to build the most challenging and comprehensive global dataset of value-oriented questions and answers ever assembled, grounded in real-world scenarios rather than abstract thought experiments. By collecting and curating these difficult cases, the Challenge seeks to:
+                    </p>
+                    <p>
+                        (1)Advance research on value reasoning, moral judgment, and ethical alignment in advanced AI;
+                        <br />
+                        (2)Promote transparent, reproducible standards for value-related AI evaluation across academia and industry;
+                        <br />
+                        (3)Provide clearer moral and value-oriented guidance for the responsible development of future AI systems. Our long-term vision is to support the creation of AI agents that can offer value-based decision support in everyday contexts, to help users solve dilemmas and improve well-being, while operating in a safe, reliable, and responsible manner for the benefit of society.
+                    </p>
+
+                    <b>Procedures</b>
+                    <p>
+                        If you choose to participate, you are invited to contribute value-related questions that current AI systems cannot answer reliably, focusing on human values, ethics, and moral judgment in real-life contexts. Steps include:
+                        <br />
+                        (1)Complete online registration of Global AI Value Challenge and pass an eligibility review. Participants are required to use an institutional (university) email address.
+                        <br />
+                        (2) Create one original value-related question that challenges AI systems and provides a clear, well-justified answer (including an explanation to justify the answer's validity). Submit them through the submit page of Global AI Value Challenge website.
+                        <br />
+                        (3) Selected question–answer pairs will be included in the Challenge dataset. Accepted contributions will receive corresponding rewards and recognition.
+                        <br />
+                        In total, your participation will take approximately 30 minutes to complete registration, review the rules, consent materials, and become familiar with the submission system. The time required to prepare each question–answer pair will vary depending on your individual pace and the quality of the submission. No minimum time commitment is required beyond these activities.
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> During the study, we plan to collect information about you such as name/ pseudonym, email address, title, field of research
+                    </p>
+
+                    <b>Compensation</b>
+                    <p>
+                        By participating in this study, you will receive
+                        <br />
+                        (1)<b>Monetary awards,</b> based on the quality and impact of your contribution. Two award levels are available:
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> <b>True North List:</b> This includes accepted submissions that pose substantial challenges to large language models and best reflect directions related to human values and AI ethics. Each selected submission will receive <b>RMB 500.</b>
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> <b>Insight List:</b> This includes accepted submissions that demonstrate significant challenges and strong intellectual depth or insight. Each selected submission will receive <b>RMB 200.</b>
+                        <br />
+                        (2)An official <b>Certificate of Participation</b> in the MSRA Global AI Values Open Research Project.
+                        <br />
+                        (3)<b>Public recognition</b> as a contributor to this global AI values related dataset (using your name or a chosen pseudonym).
+                        <br />
+                        (4)<b>Priority consideration</b> for internship opportunities with the MSRA Societal AI group.
+                        <br />
+                        Award recipients will be contacted by the challenge organization <b>within one month after the conclusion of the challenge,</b> using the <b>email address provided during registration,</b> to confirm eligibility and arrange the specific details of award distribution.
+                    </p>
+
+                    <b>Data Use and Authorization</b>
+                    <p>
+                        By participating, the entrant grants Microsoft the rights necessary to review, evaluate, and distribute the submitted work for competition-related purposes.
+                        <br />
+                        For submissions that receive monetary awards, the award recipients grant Microsoft ownership and distribution rights to the submitted content. These rights include, but are not limited to, the following uses:
+                        <br />
+                        (1) Non-commercial academic and research purposes:
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> Secondary analysis of the data
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> Evaluation and analysis of large language models (LLMs)
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> Training, fine-tuning, and research on LLMs or other models
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> Experiments related to human subjective evaluation
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> Publication or release of academic papers, reports, or open datasets based on the data
+                        <br />
+                        (2) Commercial use: In addition to the non-commercial academic uses described above, Microsoft reserves the right to use the data for commercial products and services. This includes, but is not limited to, training and improving Microsoft' s large language models (LLMs) and other technological products.
+                        <br />
+                        Participant Declarations: by submitting, the participant confirms and agrees that:
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> All submitted data is the participant's original work
+                        <br />
+                        <img src="../static/images/star.png" alt="" /> The submitted data does not contain any illegal, non-compliant, or harmful content
+                        <br />
+                        <b>Direct Benefits:</b> There will be no direct benefit to you as a result of participating in this study.
+                        <br />
+                        <b>Benefits to Society:</b> We hope that findings from this research will contribute to the academic understanding of how large language models respond to value-sensitive and ethically complex questions. By developing a curated dataset of challenging Q&A pairs, this project aims to support research on the evaluation and analysis of model behavior, limitations, and failure modes in value-related contexts. More broadly, this dataset may serve as a shared research resource for the academic community, enabling reproducible studies and comparative analysis across models and methods, and may help inform future research efforts toward developing AI systems that behave in safer and more reliable ways.
+                        <br />
+                        <b>Risks:</b> The risks of participating are similar to what you might experience while performing everyday tasks. Risks include minor fatigue or frustration while developing and submitting Q&A pairs, as well as mild discomfort when reflecting on complex or value-sensitive questions. No physical risks are anticipated. /Describe relevant risks such as physical discomforts like fatigue, emotional discomforts like embarrassment, etc.
+                        <br />
+                        To minimize these risks, participation is entirely voluntary. Participants may choose not to submit a Q&A pair and may withdraw from the study at any time without penalty. Participants may complete the tasks at their own pace, take breaks as needed.
+                    </p>
+
+                    <b>Privacy & Confidentiality</b>
+                    <p>
+                        Researchers will keep your participation and the information you share as confidential as possible. The information you share will be labeled in our records with a code instead of your name or other direct identifier. The key to this code will be stored separately and destroyed after data collection, result processing, and dataset curation are complete (approximately 6 months after the challenge concludes
+                        <br />
+                        <b>Considerations for Participants in People's Republic of China (PRC):</b> All collected data will be stored in All collected data will be stored and processed on secure Microsoft Azure cloud infrastructure, and not necessarily retained in the country of the participant. For example, if the participant is from the People's Republic of China (PRC), the data may not be retained in China.
+                        <br />
+                        <b>Data sharing plans:</b> De-identified data such as submitted Q&A pairs and associated evaluation labels will be shared with the academic research community through research publications, datasets, or research collaboration channels. They will retain access to this data for as long as it remains relevant for research and academic use.
+                        <br />
+                        <b>Future sharing plans:</b> Researchers may share the results of this study publicly, such as in journal articles or conference presentations, with your explicit consent, you may be acknowledged as a contributor to the related research outputs, and your name may be included in a contributor or acknowledgment list.
+                        <br />
+                        If you choose not to provide this consent, your name and any other identifiable information (including but not limited to voice or video recordings) will not be included or disclosed in any publications or shared materials.
+                        <br />
+                        Information and data collected from you during this study may be used for Microsoft's future research studies or to improve our products or services. If that happens, researchers will remove any direct identifiers, like your name or email address, before sharing.
+                        <br />
+                        <b>If you decide to withdraw from the study:</b> and you want researchers to remove your study information, you can contact the study team at <a href="mailto:aivaluechallenge@gmail.com">aivaluechallenge@gmail.com.</a> However, after we remove any link to identifiers, it would no longer be possible to delete your data, but any results of the research will not identify you individually.
+                        <br />
+                        For questions about how Microsoft manages your privacy, please see the <a href="https://privacy.microsoft.com/en-us/privacystatement" target="_blank">Microsoft Privacy Statement.</a>
+                        <br />
+                        <b>Participation is your choice:</b> Whether or not you participate is entirely up to you. You can decide to participate now and stop participating later. Your decision of whether or not to participate will have no impact on any other services or agreements you have with Microsoft outside of this research.
+                        <br />
+                        <b>Questions or Concerns:</b> If you have any questions or concerns about this study at any time, you may contact the research team at reshma.ramprasad@microsoft.com If you have any questions about your rights as a research participant, please contact the Microsoft Research Ethics Review Program at <a href="mailto:MSRstudyfeedback@microsoft.com">MSRstudyfeedback@microsoft.com.</a>
+                    </p>
                     <div class="checkbox-container">
-                        <input type="checkbox" id="read_agreement" name="read_agreement">
+                        <input type="checkbox" name="read_agreement" id="read_agreement">
                         <label for="read_agreement">I have carefully read and agree to above consent.</label>
                     </div>
+                    <p>If you would like to keep a copy of this consent form, please print or save one now.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="agreeBtn" disabled class="btn-submit" onclick="handleCustomSave(event)">Submit</button>
+                    <button type="button" id="agreeBtn" disabled="disabled" class="btn-submit" onclick="handleCustomSave(event)">Submit</button>
                     <button class="btn-back" data-bs-dismiss="modal" type="button">Back</button>
                 </div>
             </div>
