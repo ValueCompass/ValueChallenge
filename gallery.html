@@ -105,7 +105,7 @@ $(function() {
         if (d.newThemes && d.newThemes.length > 1 && d.echartsData && d.echartsData.children) {
             $('#sunburstContainer').show();
             var script = document.createElement('script');
-            script.src = '/static/js/echarts.min.js';
+            script.src = './static/js/echarts.min.js';
             script.onload = function() { renderSunburst(d.echartsData, d.echartsColor); };
             document.body.appendChild(script);
         }
@@ -114,7 +114,7 @@ $(function() {
 
 function renderSunburst(echartsData, echartsColor) {
     var dom = document.getElementById('sunburst');
-    var myChart = echarts.init(dom);
+    var myChart = echarts.init(dom, null, { renderer: 'canvas', useDirtyRect: false });
     var data = [echartsData];
     for (var j = 0; j < data.length; j++) {
         var level1 = data[j].children;
