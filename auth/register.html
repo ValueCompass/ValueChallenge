@@ -31,7 +31,7 @@
             <span>Registration</span>
         </div>
         <div class="form-container form-registration">
-            <form id="registerForm" onsubmit="return false;">
+            <form id="registerForm" onsubmit="return registerSubmit();">
                 <div class="form-group">
                     <label class="required">Email Address</label>
                     <input type="email" placeholder="Please enter your email" id="email" name="email">
@@ -270,13 +270,6 @@ $(function() {
 
     $('#email').val(localStorage.getItem('msra_login_email'));
 
-    // "Create Account" button: validate form, then show consent modal
-    $('#registerBtn').on('click', function(e) {
-        e.preventDefault();
-        if (!$("#registerForm").valid()) return;
-        $('#modal1').modal('show');
-    });
-
     document.getElementById('major').addEventListener('change', function() {
         if (this.value == 'Other') { document.getElementById('institution').classList.add('show'); }
         else { document.getElementById('institution').classList.remove('show'); }
@@ -285,7 +278,7 @@ $(function() {
 
 function registerSubmit() {
     event.preventDefault();
-    var btn = document.getElementById('agreeBtn');
+    var btn = document.getElementById('registerBtn');
     if (!$("#registerForm").valid()) return false;
 
     var formData = new FormData(document.getElementById('registerForm'));
@@ -304,7 +297,7 @@ function registerSubmit() {
             }
         })
         .catch(function() { lk.alert.info('Network error, please try again.'); })
-        .finally(function() { btn.disabled = false; btn.innerHTML = 'Submit'; });
+        .finally(function() { btn.disabled = false; btn.innerHTML = 'Create Account'; });
     return false;
 }
 </script>
