@@ -9,7 +9,15 @@
     <link rel="stylesheet" href="../static/fontawesome/css/all.min.css">
     <link href="../static/css/main.css" rel="stylesheet">
     <link href="../static/css/dev.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/cookieconsent.css">
+    <script type="text/javascript" src="../static/js/cookieconsent.umd.js"></script>
     <style>a:hover{text-decoration:unset;} .hide{display:none} .show{display:block}</style>
+    <script src="../static/js/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/jquery.validate.min.js"></script>
+    <script src="../static/js/additional-methods.min.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/sweetalert2@11.js"></script>
+    <script src="../static/js/common.js"></script>
 </head>
 <body>
 <div id="app">
@@ -261,6 +269,13 @@ $(function() {
     });
 
     $('#email').val(localStorage.getItem('msra_login_email'));
+
+    // "Create Account" button: validate form, then show consent modal
+    $('#registerBtn').on('click', function(e) {
+        e.preventDefault();
+        if (!$("#registerForm").valid()) return;
+        $('#modal1').modal('show');
+    });
 
     document.getElementById('major').addEventListener('change', function() {
         if (this.value == 'Other') { document.getElementById('institution').classList.add('show'); }
