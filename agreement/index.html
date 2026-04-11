@@ -12,7 +12,38 @@
     <link href="../static/css/dev.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/cookieconsent.css">
     <script type="text/javascript" src="../static/js/cookieconsent.umd.js"></script>
-    <style>a:hover{text-decoration:unset;}</style>
+    <style>
+        a:hover{text-decoration:unset;}
+        .agreement-content {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .agreement-content h3 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .agreement-content h4 {
+            color: #495057;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .agreement-content p {
+            text-align: justify;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .agreement-actions .form-check-label {
+            font-size: 1.05rem;
+        }
+    </style>
     <script src="../static/js/jquery-3.6.0.min.js"></script>
     <script src="../static/js/jquery.validate.min.js"></script>
     <script src="../static/js/additional-methods.min.js"></script>
@@ -103,7 +134,7 @@
                                     </button>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="/submission/submit.html" class="btn btn-outline-secondary btn-lg btn-block">
+                                    <a id="cancelLink" class="btn btn-outline-secondary btn-lg btn-block">
                                         <i class="fas fa-times-circle"></i> Cancel
                                     </a>
                                 </div>
@@ -126,6 +157,7 @@
 <script>
 $(function() {
     App.initLayout('submit');
+    document.getElementById('cancelLink').href = App.url('/submission/submit.html');
 });
 
 function submitAgreement() {

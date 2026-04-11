@@ -85,7 +85,7 @@
                     <p class="form-tip">Please select the option that best reflects your primary academic background or research area.</p>
                 </div>
                 <p class="form-during">
-                    During the registration process, we will collect your email, title and field of research. We will conduct data analysis within the Global AI Value Challenge. Personal data will not be disclosed to any third party. Within six months after the challenge concludes, we will anonymize personal data, and you may need to agree to the <a href="https://www.microsoft.com/zh-cn/privacy/privacystatement">Microsoft Privacy Statement</a>. If you have any objections, please contact us via <a href="mailto:aivaluechallenge@gmail.com">aivaluechallenge@gmail.com</a>.
+                    During the registration process, we will collect your email, title and field of research. We will conduct data analysis within the Global AI Value Challenge. Personal data will not be disclosed to any third party or other authority. Within six months after the challenge concludes, we will anonymize personal data, and we may need you to understand and agree to the <a href="https://www.microsoft.com/zh-cn/privacy/privacystatement">Microsoft Privacy Statement</a>, so the registration process can be started. If you have any objections to the consent after registration, please contact us via <a href="mailto:aivaluechallenge@gmail.com">aivaluechallenge@gmail.com</a> and we will delete all your registration information within 3 business days.
                 </p>
                 <div class="checkbox-line">
                     <input type="checkbox" id="agree" name="agree">
@@ -285,7 +285,7 @@ $(function() {
 
 function registerSubmit() {
     event.preventDefault();
-    var btn = document.getElementById('registerBtn');
+    var btn = document.getElementById('agreeBtn');
     if (!$("#registerForm").valid()) return false;
 
     var formData = new FormData(document.getElementById('registerForm'));
@@ -304,7 +304,7 @@ function registerSubmit() {
             }
         })
         .catch(function() { lk.alert.info('Network error, please try again.'); })
-        .finally(function() { btn.disabled = false; btn.innerHTML = 'Create Account'; });
+        .finally(function() { btn.disabled = false; btn.innerHTML = 'Submit'; });
     return false;
 }
 </script>
