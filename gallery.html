@@ -45,7 +45,6 @@
         </div>
         <div class="minors-contxt">
             <div class="minors" id="themeList"></div>
-            <div id="themeDetails"></div>
         </div>
     </div>
 
@@ -90,7 +89,7 @@ $(function() {
             detailHtml += '<div class="minors-contxt-txt ' + isShow + '" id="themeinfo' + t.id + '"><h3>' + App.escHtml(t.name) + '</h3><h5>' + App.escHtml(t.description) + '</h5></div>';
         });
         $('#themeList').html(tabHtml);
-        $('#themeDetails').html(detailHtml);
+        $('#themeList').after(detailHtml);
 
         // Theme tab click
         $(document).on('click', '.minors-item', function() {

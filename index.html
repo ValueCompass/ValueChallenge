@@ -250,6 +250,9 @@ $(function() {
 
     if (!Auth.isLoggedIn()) {
         document.getElementById('loginBox').style.display = '';
+    } else {
+        var ct = document.querySelector('.complexities .ct');
+        if (ct) { ct.style.flex = '1'; ct.style.width = 'auto'; }
     }
 
     var emailInputObj = $("#emailInput");
