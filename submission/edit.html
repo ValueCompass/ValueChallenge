@@ -49,10 +49,9 @@
                 </div>
                 <div class="form-group">
                     <label>Supporting Materials Upload ( Optional )</label>
-                    <div class="file-upload" style="height:54px;">
+                    <div class="file-upload" style="height:54px;" onclick="document.getElementById('fileUpload').click()">
                         <span id="fileLabel">Choose File</span>
                         <input type="file" class="custom-file-input" id="fileUpload" name="attachment" accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-                        <label for="fileUpload" id="fileDisplayLabel">Choose new Word document (optional)</label>
                     </div>
                     <small class="form-text text-muted" id="currentFile"></small>
                     <p class="form-tip">If necessary, a Word (.doc/.docx) or PDF file may be uploaded as a supporting attachment to provide images, links, references, or additional explanations.</p>
@@ -233,11 +232,11 @@ $(function() {
         $('#answer_justification').val(q.answer_justification);
         $('#legal_full_name').val(q.legal_full_name);
         if (q.attachment_name) {
-            $('#fileDisplayLabel').text('Current: ' + q.attachment_name);
+            $('#fileLabel').text('Current: ' + q.attachment_name);
         }
         if (q.attachment_path) {
             var apiBase = window.APP_CONFIG.API_BASE_URL;
-            $('#currentFile').html('<a href="' + apiBase + '/uploads/' + q.attachment_path + '" target="_blank"><i class="fas fa-download"></i> Download current file</a>');
+            $('#currentFile').html('<a href="' + apiBase + '/uploads/' + q.attachment_path + '" target="_blank" class="text-primary"><i class="fas fa-download"></i> Download current file</a>');
         }
     });
 
@@ -334,8 +333,8 @@ $(function() {
     });
 
     document.getElementById('fileUpload').addEventListener('change', function(e) {
-        var fileName = e.target.files[0] ? e.target.files[0].name : 'Choose new Word document (optional)';
-        $('#fileDisplayLabel').text(fileName);
+        var fileName = e.target.files[0] ? e.target.files[0].name : 'Choose new file (optional)';
+        $('#fileLabel').text(fileName);
     });
 });
 
