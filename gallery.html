@@ -70,7 +70,7 @@ $(function() {
                 if (k < 3) { html += '<div><img src="./static/images/gallery' + (k+1) + '.png" alt=""></div>'; }
                 else { html += '<div></div>'; }
                 html += '<div><span>' + App.escHtml(po.username) + '</span></div>';
-                html += '<div><div class="progress"><div class="progressing" style="width:' + po.progress + '%;"></div></div><span>' + po.s + '</span></div>';
+                html += '<div><div class="progress"><div class="progressing" style="width:' + po.progress + '%;"></div></div></div>';
                 html += '</div>';
             });
             $('#starList').html(html);
