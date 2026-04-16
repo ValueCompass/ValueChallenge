@@ -62,7 +62,7 @@ $(function() {
         var d = result.data;
 
         // Render Polaris List
-        if (d.polarisList && d.polarisList.length >= 5) {
+        if (d.newThemes && d.newThemes.length >= 5 && d.polarisList && d.polarisList.length > 0) {
             $('#polarisContainer').show();
             var html = '';
             d.polarisList.forEach(function(po, k) {
@@ -101,7 +101,7 @@ $(function() {
         });
 
         // Sunburst chart
-        if (d.newThemes && d.newThemes.length > 1 && d.echartsData && d.echartsData.children) {
+        if (d.newThemes && d.newThemes.length >= 5 && d.echartsData && d.echartsData.children) {
             $('#sunburstContainer').show();
             var script = document.createElement('script');
             script.src = './static/js/echarts.min.js';
